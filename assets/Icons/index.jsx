@@ -1,4 +1,3 @@
-import { View, Text } from 'react-native'
 import React from 'react'
 import Home from './Home';
 import Mail from './Mail';
@@ -22,7 +21,7 @@ import Delete from './Delete';
 import Logout from './logout';
 import Image from './Image';
 import Video from './Video';
-
+import ArrowRight02Icon from './ArrowRightIcon';
 const icons = {
     home: Home,
     mail: Mail,
@@ -45,6 +44,7 @@ const icons = {
     logout: Logout,
     image: Image,
     video: Video,
+    ArrowRight:ArrowRight02Icon
 }
 
 const Icon = ({name, ...props}) => {
@@ -54,7 +54,7 @@ const Icon = ({name, ...props}) => {
         height={props.size || 24}
         width={props.size || 24}
         strokeWidth={props.strokeWidth || 1.9}
-        color={theme.colors.textLight}
+        color={props.color}
         {...props}
     />
   )
