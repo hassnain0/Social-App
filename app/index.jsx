@@ -7,7 +7,7 @@ import {
   Text,
   StyleSheet,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import slider from "../helper/slider";
 import { theme } from "../constants/theme";
 import { StatusBar } from "expo-status-bar";
@@ -16,24 +16,36 @@ import { useFonts } from "expo-font";
 import { useRouter } from "expo-router";
 import ScrollButton from "../components/ScrollButton";
 
-
 const index = () => {
-
   //For Navigation
-  const router=useRouter();
+  const router = useRouter();
+  const [currentSliderIndicator, setCurrentSliderIndicator] = useState(0);
   const Slide = ({ item }) => {
     return (
       <View style={{ alignItems: "center" }}>
         <Image
           source={item.image}
-          style={{ height: "75%", width: wp(100), resizeMode: "contain" }}
+          style={{ height: "70%", width: wp(100), resizeMode: "contain" }}
         />
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.subtitle}>{item.subtitle}</Text>
         <View>
-
-         <ScrollButton/>
-          
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 20,
+              alignItems: "center",
+            }}
+          >
+            {slider.map((item, index) => (
+              <View style={[styles.indicator,currentSliderIndicator==index&&{
+                backgroundColor:theme.colors.dark,
+                width:25
+              }]} />
+            ))}
+          </View>
+          <ScrollButton />
         </View>
       </View>
     );
@@ -52,10 +64,10 @@ const index = () => {
   );
 };
 const styles = StyleSheet.create({
-  text:{
-color:'white',
-fontSize:hp(10),
-textAlign:"center"
+  text: {
+    color: "white",
+    fontSize: hp(10),
+    textAlign: "center",
   },
   button: {
     backgroundColor: theme.colors.primary,
@@ -64,19 +76,25 @@ textAlign:"center"
     width: wp(10),
     padding: hp(5),
     marginTop: hp(4),
-    alignItems:'center',
-    justifyContent:'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     textAlign: "center",
     fontSize: hp(3),
     fontWeight: theme.fonts.bold,
-    
   },
   subtitle: {
     textAlign: "center",
 
     lineHeight: hp(3),
+  },
+  indicator: {
+    height: 2.5,
+    width: 10,
+    backgroundColor: "black",
+    marginTop: hp(10),
+    marginHorizontal: 2,
   },
 });
 

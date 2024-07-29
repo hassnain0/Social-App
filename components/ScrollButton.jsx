@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
     height: hp(10),
     width: wp(10),
     padding: hp(5),
+    marginTop:hp(1),
     alignItems: "center",
     justifyContent: "center",
   },
