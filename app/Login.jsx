@@ -46,14 +46,14 @@ const Login = () => {
             Please Login to Continue
           </Text>
           <Input
-            icon={<Icon name={"mail"} size={26} strokeWidth={1.6} />}
+            icon={<Icon color={"gray"}  name={"mail"} size={26} strokeWidth={1.6} />}
             placeholder="Enter your Email"
             onChangeText={(value) => {
               emailRef.current = value;
             }}
           />
           <Input
-            icon={<Icon name={"lock"} size={26} strokeWidth={1.6} />}
+            icon={<Icon color={"gray"}  name={"lock"} size={26} strokeWidth={1.6} />}
             placeholder="Enter your Password"
             onChangeText={(value) => {
               passwordRef.current = value;

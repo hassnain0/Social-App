@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
   indicator: {
     height: 2.5,
     width: 10,
-    backgroundColor: "black",
+    backgroundColor: theme.colors.primary,
     marginTop: hp(10),
     marginHorizontal: 2,
   },

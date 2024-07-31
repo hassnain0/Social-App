@@ -1,0 +1,2 @@
+export const supabaseUrl="https://ixoyluwfmzbbszttivfw.supabase.co"
+export const supabaseanon_key="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Iml4b3lsdXdmbXpiYnN6dHRpdmZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjIzNDAxODQsImV4cCI6MjAzNzkxNjE4NH0.8UhfpLIhOc3Pq_QShl8KpgS8LqLA8mjYd7Llo8j6je4";

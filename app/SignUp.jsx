@@ -11,17 +11,60 @@ import Icon from "../assets/Icons";
 import Button from "../components/Button";
 import utils from "../helper/utils";
 import Toast from "react-native-toast-message";
+import { supabase } from "../lib/supabase";
 
 const SignUp = () => {
   const route = useRouter();
+  const nameRef = useRef("");
   const emailRef = useRef("");
   const passwordRef = useRef("");
   const [loading, setLoading] = useState(false);
 
   const onSubmit = async () => {
-    if (!emailRef.current || !passwordRef.current) {
+    if (!nameRef || !emailRef.current || !passwordRef.current) {
       utils.errorMsg("Please fill all requirements");
       return;
+    }
+    let email = emailRef.current.trim();
+    let name = nameRef.current.trim();
+    let password = passwordRef.current.trim();
+
+    setLoading(true);
+
+    const {
+      data: { session },
+      error,
+    } = await supabase.auth.signUp({
+      email: email,
+      password: password,
+      options: {
+        data: {
+          name: name,
+        },
+      },
+    });
+
+    if (error) {
+      console.error('Error signing up user:', error.message);
+      // Optionally handle different types of errors
+      if (error.code === '23505') {
+        // Example: Handle unique constraint violation
+        console.error('Email already in use.');
+      }
+    } else {
+      console.log('User signed up successfully:', data);
+    }
+  
+    setLoading(false);
+
+    console.log("Session",session)
+    if (error) {
+      console.log("Error", error);
+      utils.errorMsg(error.message);
+      setLoading(false);
+    }
+    else{
+      utils.successMsg("Sucessfully Registered");
     }
   };
 
@@ -30,9 +73,7 @@ const SignUp = () => {
       <StatusBar style="dark" />
       <View style={styles.container}>
         <BackButton router={router} />
-
         {/* Welcome Text  */}
-
         <View>
           <Text style={styles.welcomeText}>Let's </Text>
           <Text style={styles.welcomeText}>Get Started</Text>
@@ -40,34 +81,32 @@ const SignUp = () => {
 
         {/* Form */}
         <View style={styles.form}>
-        <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>
+          <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>
             Please fill the details to create an account
           </Text>
-        <Input
-            icon={<Icon name={"user"} size={26} strokeWidth={1.6} />}
+          <Input
+            icon={
+              <Icon color={"gray"} name={"user"} size={26} strokeWidth={1.6} />
+            }
             placeholder="Enter your Name"
             onChangeText={(value) => {
-              emailRef.current = value;
+              nameRef.current = value;
             }}
           />
           <Input
-            icon={<Icon name={"mail"} size={26} strokeWidth={1.6} />}
+            icon={
+              <Icon name={"mail"} color={"gray"} size={26} strokeWidth={1.6} />
+            }
             placeholder="Enter your Email"
             onChangeText={(value) => {
               emailRef.current = value;
             }}
           />
           <Input
-            icon={<Icon name={"lock"} size={26} strokeWidth={1.6} />}
+            icon={
+              <Icon name={"lock"} color={"gray"} size={26} strokeWidth={1.6} />
+            }
             placeholder="Enter your Password"
-            onChangeText={(value) => {
-              passwordRef.current = value;
-            }}
-            securityTextEntry={true}
-          />
-           <Input
-            icon={<Icon name={"lock"} size={26} strokeWidth={1.6} />}
-            placeholder="Re Enter your Password"
             onChangeText={(value) => {
               passwordRef.current = value;
             }}
@@ -79,15 +118,18 @@ const SignUp = () => {
           {/* Footer Area */}
           <View style={styles.footer}>
             <Text style={styles.footerText}>Already have an account ?</Text>
-            <TouchableOpacity onPress={()=>{route.push('Login')}}>
-                
+            <TouchableOpacity
+              onPress={() => {
+                route.push("Login");
+              }}
+            >
               <Text
                 style={[
                   styles.footerText,
                   {
                     color: theme.colors.primaryDark,
                     fontWeight: theme.fonts.semibold,
-                    paddingHorizontal:wp(2)
+                    paddingHorizontal: wp(2),
                   },
                 ]}
               >

@@ -3,10 +3,12 @@ import React from "react";
 import Icon from "../assets/Icons";
 import { theme } from "../constants/theme";
 import { hp, wp } from "../helper/common";
+import { useRouter } from "expo-router";
 
 const ScrollButton = () => {
+  const router=useRouter();
   return (
-    <Pressable style={styles.button}>
+    <Pressable onPress={()=>router.push('Welcome')} style={styles.button}>
       <Icon color={"white"} height={40} width={40} name={"ArrowRight"} />
     </Pressable>
   );
