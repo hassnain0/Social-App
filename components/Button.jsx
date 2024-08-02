@@ -4,7 +4,6 @@ import { theme } from "../constants/theme";
 import { hp } from "../helper/common";
 import Loading from "./Loading";
 
-
 const Button = ({
   buttonStyle,
   textStyle,
@@ -14,18 +13,18 @@ const Button = ({
   hasShadow = true,
 }) => {
   const shadowStyle = {
-    shadowColor:theme.colors.dark,
-    shadowOffset:{width:0,height:10},
-    shadowOpacity:8,
-    elevation:4
+    shadowColor: theme.colors.dark,
+    shadowOffset: { width: 0, height: 10 },
+    shadowOpacity: 8,
+    elevation: 4,
   };
 
-  if(loading==true){
-    return(
-        <View style={[styles.Button,buttonStyle,{backgroundColor:'white'}]}>
-            <Loading/>
-        </View>
-    )
+  if (loading == true) {
+    return (
+      <View style={[styles.Button, buttonStyle, { backgroundColor: "white" }]}>
+        <Loading />
+      </View>
+    );
   }
   return (
     <Pressable
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
   text: {
     color: theme.colors.darklight,
     fontWeight: theme.fonts.bold,
-    fontSize:20,
+    fontSize: 20,
   },
   footer: {
     gap: 30,

@@ -6,9 +6,9 @@ import { hp, wp } from "../helper/common";
 import { useRouter } from "expo-router";
 
 const ScrollButton = () => {
-  const router=useRouter();
+  const router = useRouter();
   return (
-    <Pressable onPress={()=>router.push('Welcome')} style={styles.button}>
+    <Pressable onPress={() => router.push("home")} style={styles.button}>
       <Icon color={"white"} height={40} width={40} name={"ArrowRight"} />
     </Pressable>
   );
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     height: hp(10),
     width: wp(10),
     padding: hp(5),
-    marginTop:hp(1),
+    marginTop: hp(1),
     alignItems: "center",
     justifyContent: "center",
   },

@@ -12,13 +12,10 @@ import slider from "../helper/slider";
 import { theme } from "../constants/theme";
 import { StatusBar } from "expo-status-bar";
 import { hp, wp } from "../helper/common";
-import { useFonts } from "expo-font";
-import { useRouter } from "expo-router";
 import ScrollButton from "../components/ScrollButton";
 
 const index = () => {
   //For Navigation
-  const router = useRouter();
   const [currentSliderIndicator, setCurrentSliderIndicator] = useState(0);
   const Slide = ({ item }) => {
     return (
