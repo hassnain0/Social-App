@@ -1,4 +1,10 @@
-import { View, Pressable, StyleSheet,Text, TouchableOpacity } from "react-native";
+import {
+  View,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import React from "react";
 import Screenwrapper from "../../components/Screenwrapper";
 import { useRouter } from "expo-router";
@@ -16,8 +22,7 @@ const Profile = () => {
     </Screenwrapper>
   );
 };
-const UserHeader = ({ user, router }) => {
-  
+const UserHeader = ({ router }) => {
   return (
     <View style={styles.container}>
       <View>
@@ -30,31 +35,36 @@ const UserHeader = ({ user, router }) => {
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
             <Avatar size={hp(12)} rounded={theme.radius.xxl * 1.4} />
-            <Pressable onPress={()=>{router.push("editProfile")}} style={styles.editIcon}>
+            <Pressable
+              onPress={() => {
+                router.push("editProfile");
+              }}
+              style={styles.editIcon}
+            >
               <Icon name={"edit"} color={"gray"} strokeWidth={2.5} size={20} />
             </Pressable>
           </View>
 
           {/* Username and Address */}
-          <View style={{alignItems:'center',gap:4}}>
+          <View style={{ alignItems: "center", gap: 4 }}>
             <Text style={styles.userName}>Hassnain Ali</Text>
             <Text style={styles.infoText}>New York</Text>
           </View>
-           
-           {/* Info  email, contact and bio*/}
-          <View style={{gap:20}}>
-           <View style={styles.info}>
-            <Icon name={"mail"} size={20} color={theme.colors.textLight}/>
-            <Text style={styles.infoText}>hassnainalidayo6@gmail.com</Text>
-           </View>
-           <View style={styles.info}>
-            <Icon name={"call"} size={20} color={theme.colors.textLight}/>
-            <Text style={styles.infoText}>+92**********</Text>
-           </View>
-           <View style={styles.info}>
-            <Icon name={"user"} size={20} color={theme.colors.textLight}/>
-            <Text style={styles.infoText}>zyx</Text>
-           </View>
+
+          {/* Info  email, contact and bio*/}
+          <View style={{ gap: 20 }}>
+            <View style={styles.info}>
+              <Icon name={"mail"} size={20} color={theme.colors.textLight} />
+              <Text style={styles.infoText}>hassnainalidayo6@gmail.com</Text>
+            </View>
+            <View style={styles.info}>
+              <Icon name={"call"} size={20} color={theme.colors.textLight} />
+              <Text style={styles.infoText}>+92**********</Text>
+            </View>
+            <View style={styles.info}>
+              <Icon name={"user"} size={20} color={theme.colors.textLight} />
+              <Text style={styles.infoText}>zyx</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -67,10 +77,10 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     paddingHorizontal: wp(4),
   },
-  info:{
-    flexDirection:'row',
-    alignItems:'center',
-    gap:20
+  info: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 20,
   },
   logoutButton: {
     position: "absolute",
@@ -98,15 +108,15 @@ const styles = StyleSheet.create({
     shadowRadius: 5,
     elevation: 7,
   },
-  userName:{
-    fontSize:hp(3),
-    fontWeight:'500',
-    color:theme.colors.textDark,
+  userName: {
+    fontSize: hp(3),
+    fontWeight: "500",
+    color: theme.colors.textDark,
   },
-  infoText:{
-    fontSize:hp(1.6),
-    fontWeight:'500',
-    color:theme.colors.textLight
-  }
+  infoText: {
+    fontSize: hp(1.6),
+    fontWeight: "500",
+    color: theme.colors.textLight,
+  },
 });
 export default Profile;
