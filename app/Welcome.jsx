@@ -22,7 +22,7 @@ const Welcome = () => {
 
         {/* Title */}
         <View style={{ gap: 20 }}>
-          <Text style={styles.title}>LinkUp!</Text>
+          <Text style={styles.title}>Social Hook!</Text>
           <Text style={styles.punchLine}>
             Where every thoughts finds a home and every image tell a story.
           </Text>

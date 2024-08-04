@@ -13,7 +13,6 @@ import Avatar from "../../components/avatar";
 
 const Home = () => {
   const router = useRouter();
-
   const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
@@ -28,7 +27,7 @@ const Home = () => {
         {/* Nested View Componenets */}
         {/* header */}
         <View style={styles.header}>
-          <Text style={styles.title}>LinkUp</Text>
+          <Text style={styles.title}>Social Hook</Text>
 
           {/* View Component for Icons */}
 
@@ -63,7 +62,7 @@ const Home = () => {
                 router.push("profile");
               }}
             >
-              <Avatar rounded={theme.radius.small} size={hp(4.3)} />
+              <Avatar  rounded={theme.radius.small} size={hp(4.3)} />
             </Pressable>
           </View>
         </View>

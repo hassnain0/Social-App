@@ -2,7 +2,6 @@ import {
   View,
   Image,
   SafeAreaView,
-  TouchableOpacity,
   FlatList,
   Text,
   StyleSheet,
@@ -31,15 +30,20 @@ const index = () => {
             style={{
               flexDirection: "row",
               justifyContent: "center",
-              marginTop: 20,
+              marginTop: 10,
               alignItems: "center",
             }}
           >
             {slider.map((item, index) => (
-              <View style={[styles.indicator,currentSliderIndicator==index&&{
-                backgroundColor:theme.colors.dark,
-                width:25
-              }]} />
+              <View
+                style={[
+                  styles.indicator,
+                  currentSliderIndicator == index && {
+                    backgroundColor: theme.colors.dark,
+                    width: 25,
+                  },
+                ]}
+              />
             ))}
           </View>
           <ScrollButton />
@@ -78,7 +82,7 @@ const styles = StyleSheet.create({
   },
   title: {
     textAlign: "center",
-    fontSize: hp(3),
+    fontSize: hp(2),
     fontWeight: theme.fonts.bold,
   },
   subtitle: {
@@ -90,7 +94,7 @@ const styles = StyleSheet.create({
     height: 2.5,
     width: 10,
     backgroundColor: theme.colors.primary,
-    marginTop: hp(10),
+    marginTop: hp(5),
     marginHorizontal: 2,
   },
 });

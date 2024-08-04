@@ -22,6 +22,7 @@ import Logout from './logout';
 import Image from './Image';
 import Video from './Video';
 import ArrowRight02Icon from './ArrowRightIcon';
+import Add01Icon from './Add';
 const icons = {
     home: Home,
     mail: Mail,
@@ -44,7 +45,9 @@ const icons = {
     logout: Logout,
     image: Image,
     video: Video,
-    ArrowRight:ArrowRight02Icon
+    ArrowRight:ArrowRight02Icon,
+    Add:Add01Icon,
+
 }
 
 const Icon = ({name, ...props}) => {

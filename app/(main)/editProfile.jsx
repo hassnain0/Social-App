@@ -1,7 +1,7 @@
-import { View, Pressable } from "react-native";
+import { View, Pressable} from "react-native";
+import Button from "../../components/Button";
 import React from "react";
 import Screenwrapper from "../../components/Screenwrapper";
-import BackButton from "../../components/BackButton";
 import Header from "../../components/Header";
 import { StyleSheet } from "react-native";
 import { hp, wp } from "../../helper/common";
@@ -9,29 +9,31 @@ import Avatar from "../../components/avatar";
 import { theme } from "../../constants/theme";
 import Input from "../../components/Input";
 import Icon from "../../assets/Icons";
-
 const editProfile = () => {
   return (
     <Screenwrapper bg={"white"}>
       <View style={styles.container}>
         <View>
           <Header mb={30} showBackButton={true} title={"Edit Profile"} />
-          <Pressable
-            onPress={() => {
-              router.push("editProfile");
-            }}
-            style={styles.editIcon}
-          >
-            <Icon name={"edit"} color={"gray"} strokeWidth={2.5} size={20} />
-          </Pressable>
         </View>
-
         {/* Another View Component */}
-
         <View style={styles.container}>
-          <View style={{ gap: 12 }}>
-            <View style={{ alignSelf: "center" }}>
+          <View style={{ gap: 12, marginBottom: 10 }}>
+            <View style={styles.avatarContainer}>
               <Avatar rounded={theme.radius.xxl * 1.4} size={hp(12)} />
+              <Pressable
+                onPress={() => {
+                  router.push("editProfile");
+                }}
+                style={styles.editIcon}
+              >
+                <Icon
+                  name={"camera"}
+                  color={theme.colors.primary}
+                  strokeWidth={2.5}
+                  size={20}
+                />
+              </Pressable>
             </View>
 
             <View style={{ gap: 12 }}>
@@ -60,7 +62,9 @@ const editProfile = () => {
                     />
                   }
                   placeholder="Enter your Phone Number"
-                  onChangeText={(value) => {"+92********"}}
+                  onChangeText={(value) => {
+                    "+92********";
+                  }}
                 />
               </View>
               <View>
@@ -107,6 +111,8 @@ const editProfile = () => {
               </View>
             </View>
           </View>
+
+          <Button title="Update" />
         </View>
       </View>
     </Screenwrapper>
@@ -126,7 +132,7 @@ const styles = StyleSheet.create({
   editIcon: {
     position: "absolute",
     bottom: 0,
-    right: -15,
+    right: -12,
     padding: 7,
     borderRadius: 50,
     backgroundColor: "white",

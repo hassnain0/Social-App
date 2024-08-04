@@ -37,36 +37,35 @@ const SignUp = () => {
     } = await supabase.auth.signUp({
       email: email,
       password: password,
-//       options: {
-//         data: {
-// name,
-//         },
-//       },
+      options: {
+        data: {
+          name,
+        },
+      },
     });
-setLoading(false);
-console.log("Session",session);
-console.log("Error",error.message);
+    setLoading(false);
+    console.log("Session", session);
+    console.log("Error", error.message);
 
     if (error) {
-      console.error('Error signing up user:', error.message);
+      console.error("Error signing up user:", error.message);
       // Optionally handle different types of errors
-      if (error.code === '23505') {
+      if (error.code === "23505") {
         // Example: Handle unique constraint violation
-        console.error('Email already in use.');
+        console.error("Email already in use.");
       }
     } else {
-      console.log('User signed up successfully:', data);
+     utils.successMsg("User signed up successfully:");
     }
-  
+
     setLoading(false);
 
-    console.log("Session",session)
+    console.log("Session", session);
     if (error) {
       console.log("Error", error);
       utils.errorMsg(error.message);
       setLoading(false);
-    }
-    else{
+    } else {
       utils.successMsg("Sucessfully Registered");
     }
   };
@@ -115,9 +114,7 @@ console.log("Error",error.message);
             }}
             securityTextEntry={true}
           />
-
           <Button title="SignUP" loading={loading} onPress={onSubmit}></Button>
-
           {/* Footer Area */}
           <View style={styles.footer}>
             <Text style={styles.footerText}>Already have an account ?</Text>

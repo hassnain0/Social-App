@@ -25,12 +25,16 @@ const Profile = () => {
 const UserHeader = ({ router }) => {
   return (
     <View style={styles.container}>
+    
+    
       <View>
         <Header title={"Profile"} mb={30} showBackButton={true} />
         <TouchableOpacity style={styles.logoutButton}>
           <Icon name={"logout"} color={theme.colors.rose} />
         </TouchableOpacity>
       </View>
+
+      
       <View style={styles.container}>
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
