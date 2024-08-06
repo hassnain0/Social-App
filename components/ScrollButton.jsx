@@ -8,7 +8,7 @@ import { useRouter } from "expo-router";
 const ScrollButton = () => {
   const router = useRouter();
   return (
-    <Pressable onPress={() => router.push("home")} style={styles.button}>
+    <Pressable onPress={() => router.push("Login")} style={styles.button}>
       <Icon color={"white"} height={40} width={40} name={"ArrowRight"} />
     </Pressable>
   );

@@ -55,7 +55,7 @@ const SignUp = () => {
         console.error("Email already in use.");
       }
     } else {
-     utils.successMsg("User signed up successfully:");
+      utils.successMsg("User signed up successfully:");
     }
 
     setLoading(false);
@@ -67,9 +67,15 @@ const SignUp = () => {
       setLoading(false);
     } else {
       utils.successMsg("Sucessfully Registered");
+      setFieldEmpty();
     }
   };
 
+  const setFieldEmpty = () => {
+    (nameRef.current = " "),
+      (emailRef.current = " "),
+      (passwordRef.current = " ");
+  };
   return (
     <Screenwrapper bg="white">
       <StatusBar style="dark" />

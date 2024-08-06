@@ -13,32 +13,52 @@ import { hp, wp } from "../../helper/common";
 import Icon from "../../assets/Icons";
 import { theme } from "../../constants/theme";
 import Avatar from "../../components/avatar";
+import utils from "../../helper/utils";
+import { useAuth } from "../../context/AuthContext";
+import { supabase } from "../../lib/supabase";
 
 const Profile = () => {
+
+  const {user,setAuth}=useAuth();
   const router = useRouter();
+ 
+   const logout = async () => {
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      utils.errorMsg("Error Signing Out");
+      return;
+    } else {
+      utils.successMsg("User Successfully Logout");
+      router.push("Login");
+    }
+  };
   return (
     <Screenwrapper bg={"white"}>
-      <UserHeader router={router} />
+      <UserHeader user={user} handleLogout={logout} router={router} />
     </Screenwrapper>
   );
 };
-const UserHeader = ({ router }) => {
+const UserHeader = ({ user,router ,handleLogout}) => {
+ console.log("User Data",user.address)
+
   return (
     <View style={styles.container}>
-    
-    
       <View>
         <Header title={"Profile"} mb={30} showBackButton={true} />
-        <TouchableOpacity style={styles.logoutButton}>
+        <TouchableOpacity
+          onPress={() => {
+            handleLogout();
+          }}
+          style={styles.logoutButton}
+        >
           <Icon name={"logout"} color={theme.colors.rose} />
         </TouchableOpacity>
       </View>
 
-      
       <View style={styles.container}>
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
-            <Avatar size={hp(12)} rounded={theme.radius.xxl * 1.4} />
+            <Avatar  size={hp(12)} rounded={theme.radius.xxl * 1.4} />
             <Pressable
               onPress={() => {
                 router.push("editProfile");
@@ -51,23 +71,23 @@ const UserHeader = ({ router }) => {
 
           {/* Username and Address */}
           <View style={{ alignItems: "center", gap: 4 }}>
-            <Text style={styles.userName}>Hassnain Ali</Text>
-            <Text style={styles.infoText}>New York</Text>
+            <Text style={styles.userName}>{user?.identities[0]?.identity_data?.name}</Text>
+            <Text style={styles.infoText}>{user?.address}</Text>
           </View>
 
           {/* Info  email, contact and bio*/}
           <View style={{ gap: 20 }}>
             <View style={styles.info}>
               <Icon name={"mail"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>hassnainalidayo6@gmail.com</Text>
+              <Text style={styles.infoText}>{user.identities[0].identity_data.email}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"call"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>+92**********</Text>
+              <Text style={styles.infoText}>{user?.phone}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"user"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>zyx</Text>
+              <Text style={styles.infoText}>{user?.bio}</Text>
             </View>
           </View>
         </View>

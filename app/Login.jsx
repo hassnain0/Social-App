@@ -41,7 +41,7 @@ const Login = () => {
     }
     
     else{
-    router.push("Welcome")
+    router.push("home")
     }
   };
   

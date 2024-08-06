@@ -13,14 +13,9 @@ import Avatar from "../../components/avatar";
 
 const Home = () => {
   const router = useRouter();
-  const logout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      utils.errorMsg("Error Signing Out");
-      return;
-    }
-  };
 
+  const { user, setAuth } = useAuth();
+  
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -62,7 +57,7 @@ const Home = () => {
                 router.push("profile");
               }}
             >
-              <Avatar  rounded={theme.radius.small} size={hp(4.3)} />
+              <Avatar rounded={theme.radius.small} size={hp(4.3)} />
             </Pressable>
           </View>
         </View>

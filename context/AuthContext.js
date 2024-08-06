@@ -5,18 +5,21 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
-  const setAuth = (authUser) => {
+  //Set Authentication function
+  const setAuth = authUser => {
     setUser(authUser);
   };
 
+  //Set User function
   const setUserData = (userData) => {
-    setUser({ ...userData });
+    setUser({ ...userData});
   };
+
   return (
-    <AuthContext.Provider value={{ user, setAuth, setUserData }}>
+    <AuthContext.Provider value={{user,setAuth,setUserData }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => useContext(AuthContext); 

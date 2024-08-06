@@ -3,24 +3,15 @@ import React from "react";
 import { theme } from "../constants/theme";
 import { hp } from "../helper/common";
 
-const Input = ({
-  icon,
-  placeholder,
-  containerStyles,
-  inputRef,
-  onChangeText,
-  securityTextEntry,
-}) => {
+const Input = (props) => {
   return (
-    <View style={[styles.container, containerStyles]}>
-      {icon && icon}
+    <View style={[styles.container, props.containerStyle && props.containerStyle]}>
+      {props.icon &&  props.icon}
       <TextInput
         style={{ flex: 1 }}
         placeholderTextColor={theme.colors.textLight}
-        ref={inputRef}
-        placeholder={placeholder}
-        onChangeText={onChangeText}
-        secureTextEntry={securityTextEntry}
+        ref={props.inputRef&&props.inputRef}
+        {...props}
       />
     </View>
   );
