@@ -11,16 +11,17 @@ import Input from "../../components/Input";
 import Icon from "../../assets/Icons";
 import utils from "../../helper/utils";
 import { useAuth } from "../../context/AuthContext";
-import { getUserImageSrc } from "../../services/imageServices";
+import { getUserImageSrc, uploadFile } from "../../services/imageServices";
 import Toast from "react-native-toast-message";
 import { updateUserData } from "../../services/userServices";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 const editProfile = () => {
   //States
-  const { user: currentUser,setUserData } = useAuth();
+  const { user: currentUser, setUserData } = useAuth();
   const [loading, setLoading] = useState(false);
-  let imagesource = getUserImageSrc(user?.image);
+
   const [user, setUser] = useState({
     name: "",
     phone: "",
@@ -28,46 +29,66 @@ const editProfile = () => {
     bio: "",
     address: "",
   });
-
-  console.log("User",currentUser.phone)
-  const router=useRouter();
+  const router = useRouter();
   //Functions
-  const onPickImage = () => {
-    utils.successMsg("Image Picker Presses");
+  const onPickImage = async () => {
+    let results = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.7,
+    });
+    console.log("Image Uri", results.assets[0]);
+
+    if (!results.canceled) {
+      setUser({ ...currentUser, image: results.assets[0] });
+    }
+    console.log("Current user after selecting Image", user.image);
   };
-
-
   const onSubmit = async () => {
     let userData = { ...user };
-    let { name, phone, address, image, bio,} = userData;
-    if (!name || !phone || !address|| !bio) {
+    let { name, phone, address, image, bio } = userData;
+    if (!name || !phone || !address || !bio || !image) {
       utils.errorMsg("Please fill all the feidls");
       return;
     }
+
     setLoading(true);
+
+    if (typeof image == "object") {
+      let imageRes = await uploadFile("profiles", image?.uri, true);
+      if (imageRes.success) userData.image = imageRes.data;
+      else {
+        userData.image = null;
+      }
+    }
     const res = await updateUserData(currentUser?.id, userData);
-    setLoading(false)
-    if(res.sucess){
-      
-      setUserData({...currentUser,...userData});
+    setLoading(false);
+    if (res.sucess) {
+      setUser({ ...currentUser, ...userData });
+      utils.successMsg("Successfully Profile Updated");
       router.back();
     }
-    
   };
+
+  let imagesource =
+    user.image && typeof user.image == "object"
+      ? user.image.uri
+      : getUserImageSrc(currentUser?.image);
+
   useEffect(() => {
+  
     if (currentUser) {
       setUser({
-        name: currentUser.user_metadata.name,
+        name: currentUser.user_metadata.name ||"",
         phone: currentUser.user_metadata.phone || "",
         address: currentUser.user_metadata.address || "",
         bio: currentUser.user_metadata.bio || "",
         image: currentUser.user_metadata.image || null,
       });
     }
-  }, [currentUser]);
-  //Image Picker Method
+  }, []);
 
-  //Submit Function
   return (
     <Screenwrapper bg={"white"}>
       <View style={styles.container}>
@@ -79,7 +100,11 @@ const editProfile = () => {
           <View style={styles.container}>
             <View style={{ gap: 12, marginBottom: 10 }}>
               <View style={styles.avatarContainer}>
-                <Avatar rounded={theme.radius.xxl * 1.4} size={hp(12)} />
+                <Avatar
+                  uri={imagesource}
+                  rounded={theme.radius.xxl * 1.4}
+                  size={hp(12)}
+                />
                 <Pressable
                   onPress={() => {
                     onPickImage();

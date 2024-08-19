@@ -18,11 +18,10 @@ import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 
 const Profile = () => {
-
-  const {user,setAuth}=useAuth();
+  const { user, setAuth } = useAuth();
   const router = useRouter();
- 
-   const logout = async () => {
+
+  const logout = async () => {
     const { error } = await supabase.auth.signOut();
     if (error) {
       utils.errorMsg("Error Signing Out");
@@ -38,8 +37,8 @@ const Profile = () => {
     </Screenwrapper>
   );
 };
-const UserHeader = ({ user,router ,handleLogout}) => {
- console.log("User Data",user.address)
+const UserHeader = ({ user, router, handleLogout }) => {
+  console.log("User Data", user);
 
   return (
     <View style={styles.container}>
@@ -58,7 +57,7 @@ const UserHeader = ({ user,router ,handleLogout}) => {
       <View style={styles.container}>
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
-            <Avatar  size={hp(12)} rounded={theme.radius.xxl * 1.4} />
+            <Avatar size={hp(12)} rounded={theme.radius.xxl * 1.4} />
             <Pressable
               onPress={() => {
                 router.push("editProfile");
@@ -71,7 +70,9 @@ const UserHeader = ({ user,router ,handleLogout}) => {
 
           {/* Username and Address */}
           <View style={{ alignItems: "center", gap: 4 }}>
-            <Text style={styles.userName}>{user?.identities[0]?.identity_data?.name}</Text>
+            <Text style={styles.userName}>
+              {user?.identities[0]?.identity_data?.name}
+            </Text>
             <Text style={styles.infoText}>{user?.address}</Text>
           </View>
 
@@ -79,7 +80,9 @@ const UserHeader = ({ user,router ,handleLogout}) => {
           <View style={{ gap: 20 }}>
             <View style={styles.info}>
               <Icon name={"mail"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user.identities[0].identity_data.email}</Text>
+              <Text style={styles.infoText}>
+                {user.identities[0].identity_data.email}
+              </Text>
             </View>
             <View style={styles.info}>
               <Icon name={"call"} size={20} color={theme.colors.textLight} />

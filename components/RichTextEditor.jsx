@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const notifications = () => {
+const RichTextEditor = () => {
   return (
     <View>
-      <Text>notifications</Text>
+      <Text>RichTextEditor</Text>
     </View>
   )
 }
 
-export default notifications
+export default RichTextEditor

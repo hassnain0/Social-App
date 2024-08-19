@@ -1,7 +1,6 @@
 import { View, Text, Image, StyleSheet, Pressable } from "react-native";
 import React from "react";
 import ScreenWrapper from "../components/Screenwrapper";
-import StatusBar from "expo-status-bar";
 import { hp, wp } from "../helper/common";
 import { theme } from "../constants/theme";
 import Button from "../components/Button";
@@ -13,7 +12,6 @@ const Welcome = () => {
     <ScreenWrapper bg="white">
       <View style={styles.container}>
         {/* ImageComponent */}
-
         <Image
           resizeMode="contain"
           style={styles.image_container}
@@ -40,7 +38,7 @@ const Welcome = () => {
             <Text style={styles.LoginText}>Already have an Account !</Text>
             <Pressable
               onPress={() => {
-                router.push("home");
+                router.push("Login");
               }}
             >
               <Text

@@ -13,9 +13,8 @@ import Avatar from "../../components/avatar";
 
 const Home = () => {
   const router = useRouter();
-
   const { user, setAuth } = useAuth();
-  
+
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -29,9 +28,9 @@ const Home = () => {
           <View style={styles.icon}>
             {/* Reusable Icons */}
             <Pressable
-              onPress={() => {
-                router.push("notifications");
-              }}
+                onPress={() => {
+                  router.push("newPost");
+                }}
             >
               <Icon
                 name={"heart"}
@@ -42,7 +41,7 @@ const Home = () => {
             </Pressable>
             <Pressable
               onPress={() => {
-                router.push("Add");
+                router.push("notification");
               }}
             >
               <Icon

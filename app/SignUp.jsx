@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useRef, useState } from "react";
 import Screenwrapper from "../components/Screenwrapper";
 import { theme } from "../constants/theme";
@@ -44,29 +44,18 @@ const SignUp = () => {
       },
     });
     setLoading(false);
-    console.log("Session", session);
-    console.log("Error", error.message);
-
     if (error) {
+      setFieldEmpty();
       console.error("Error signing up user:", error.message);
       // Optionally handle different types of errors
       if (error.code === "23505") {
-        // Example: Handle unique constraint violation
-        console.error("Email already in use.");
+        utils.errorMsg(error.message);
+      }
+      if (error.message == "Network request failed") {
+        utils.errorMsg(error.message);
       }
     } else {
       utils.successMsg("User signed up successfully:");
-    }
-
-    setLoading(false);
-
-    console.log("Session", session);
-    if (error) {
-      console.log("Error", error);
-      utils.errorMsg(error.message);
-      setLoading(false);
-    } else {
-      utils.successMsg("Sucessfully Registered");
       setFieldEmpty();
     }
   };
@@ -86,7 +75,6 @@ const SignUp = () => {
           <Text style={styles.welcomeText}>Let's </Text>
           <Text style={styles.welcomeText}>Get Started</Text>
         </View>
-
         {/* Form */}
         <View style={styles.form}>
           <Text style={{ fontSize: hp(1.5), color: theme.colors.text }}>

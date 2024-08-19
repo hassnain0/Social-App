@@ -11,6 +11,7 @@ const Input = (props) => {
         style={{ flex: 1 }}
         placeholderTextColor={theme.colors.textLight}
         ref={props.inputRef&&props.inputRef}
+        secureTextEntry={props.securityTextEntry&&props.securityTextEntry}
         {...props}
       />
     </View>

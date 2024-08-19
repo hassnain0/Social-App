@@ -37,14 +37,11 @@ const Login = () => {
     setLoading(false);
     console.log("Error", error);
     if (error) {
-      utils.errorMsg("Error Occurs");
-    }
-    
-    else{
-    router.push("home")
+      utils.errorMsg(error.message);
+    } else {
+      router.push("home");
     }
   };
-  
 
   return (
     <Screenwrapper bg="white">
