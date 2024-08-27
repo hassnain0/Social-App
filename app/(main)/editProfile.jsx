@@ -29,8 +29,7 @@ const editProfile = () => {
     bio: "",
     address: "",
   });
-  const router = useRouter();
-  //Functions
+
   const onPickImage = async () => {
     let results = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -38,13 +37,13 @@ const editProfile = () => {
       aspect: [4, 3],
       quality: 0.7,
     });
-    console.log("Image Uri", results.assets[0]);
 
     if (!results.canceled) {
       setUser({ ...currentUser, image: results.assets[0] });
     }
     console.log("Current user after selecting Image", user.image);
   };
+
   const onSubmit = async () => {
     let userData = { ...user };
     let { name, phone, address, image, bio } = userData;
@@ -67,24 +66,23 @@ const editProfile = () => {
     if (res.sucess) {
       setUser({ ...currentUser, ...userData });
       utils.successMsg("Successfully Profile Updated");
-      router.back();
     }
   };
 
-  let imagesource =
-    user.image && typeof user.image == "object"
-      ? user.image.uri
-      : getUserImageSrc(currentUser?.image);
+  useEffect(()=>{
+    console.log("Image Source",imagesource)
+  },[imagesource])
+  let imagesource =user?.image && typeof user.image == "object"? user.image.uri: getUserImageSrc(currentUser?.image);
 
   useEffect(() => {
-  
     if (currentUser) {
       setUser({
-        name: currentUser.user_metadata.name ||"",
-        phone: currentUser.user_metadata.phone || "",
-        address: currentUser.user_metadata.address || "",
-        bio: currentUser.user_metadata.bio || "",
-        image: currentUser.user_metadata.image || null,
+        name: currentUser?.name,
+        phone: currentUser?.phone || "",
+        address: currentUser?.address || "",
+        bio: currentUser?.bio || "",
+        image:currentUser?.image||null,
+
       });
     }
   }, []);
@@ -149,6 +147,7 @@ const editProfile = () => {
                       />
                     }
                     placeholder="Enter your Phone Number"
+                    value={user.phone}
                     onChangeText={(value) => {
                       setUser({ ...user, phone: value });
                     }}
@@ -169,25 +168,10 @@ const editProfile = () => {
                     onChangeText={(value) => {
                       setUser({ ...user, address: value });
                     }}
+                    value={user.address}
                   />
                 </View>
 
-                <View>
-                  <Input
-                    icon={
-                      <Icon
-                        color={"gray"}
-                        name={"mail"}
-                        size={26}
-                        strokeWidth={1.6}
-                      />
-                    }
-                    placeholder="Enter your Email"
-                    onChangeText={(value) => {
-                      setUser({ ...user, email: value });
-                    }}
-                  />
-                </View>
                 <View>
                   <Input
                     icon={
@@ -204,6 +188,7 @@ const editProfile = () => {
                     onChangeText={(value) => {
                       setUser({ ...user, bio: value });
                     }}
+                    value={user.bio}
                   />
                 </View>
               </View>
@@ -222,6 +207,7 @@ const editProfile = () => {
     </Screenwrapper>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
