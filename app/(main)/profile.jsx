@@ -18,7 +18,7 @@ import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 
 const Profile = () => {
-  const { user, setAuth } = useAuth();
+ const {user,setAuth}=useAuth();
   const router = useRouter();
 
   const logout = async () => {
@@ -38,8 +38,6 @@ const Profile = () => {
   );
 };
 const UserHeader = ({ user, router, handleLogout }) => {
-  console.log("User Data", user);
-
   return (
     <View style={styles.container}>
       <View>

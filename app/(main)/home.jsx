@@ -1,11 +1,9 @@
 import { View, Text, Pressable } from "react-native";
 import React from "react";
-import { StyleSheet, Button } from "react-native";
+import { StyleSheet } from "react-native";
 import { wp, hp } from "../../helper/common";
 import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
-import { supabase } from "../../lib/supabase";
-import utils from "../../helper/utils";
 import ScreenWrapper from "../../components/Screenwrapper";
 import Icon from "../../assets/Icons";
 import { useRouter } from "expo-router";
@@ -14,7 +12,6 @@ import Avatar from "../../components/avatar";
 const Home = () => {
   const router = useRouter();
   const { user, setAuth } = useAuth();
-
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -28,9 +25,9 @@ const Home = () => {
           <View style={styles.icon}>
             {/* Reusable Icons */}
             <Pressable
-                onPress={() => {
-                  router.push("newPost");
-                }}
+              onPress={() => {
+                router.push("newPost");
+              }}
             >
               <Icon
                 name={"heart"}

@@ -3,8 +3,7 @@ import {supabase} from '../lib/supabase';
 export const getUserData=async(userId)=>{
     try{
         const {data,error}=await supabase.from("users").select().eq('id',userId).single();
-
-        if(error){
+        if(error){ 
             return {sucess:false ,msg:error?.message};
         }
         return{
