@@ -10,8 +10,8 @@ import { useRouter } from "expo-router";
 import Avatar from "../../components/avatar";
 
 const Home = () => {
+  const { user } = useAuth();
   const router = useRouter();
-  const { user, setAuth } = useAuth();
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -26,7 +26,7 @@ const Home = () => {
             {/* Reusable Icons */}
             <Pressable
               onPress={() => {
-                router.push("newPost");
+                router.push("notification");
               }}
             >
               <Icon
@@ -38,7 +38,7 @@ const Home = () => {
             </Pressable>
             <Pressable
               onPress={() => {
-                router.push("notification");
+                router.push("newPost");
               }}
             >
               <Icon
@@ -53,7 +53,11 @@ const Home = () => {
                 router.push("profile");
               }}
             >
-              <Avatar rounded={theme.radius.small} size={hp(4.3)} />
+              <Avatar
+                uri={user && user?.image}
+                rounded={theme.radius.small}
+                size={hp(4.3)}
+              />
             </Pressable>
           </View>
         </View>
@@ -89,3 +93,4 @@ const styles = StyleSheet.create({
     height: hp(),
   },
 });
+  

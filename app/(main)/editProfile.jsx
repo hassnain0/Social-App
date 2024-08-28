@@ -22,6 +22,7 @@ const editProfile = () => {
   const { user: currentUser, setUserData } = useAuth();
   const [loading, setLoading] = useState(false);
 
+
   const [user, setUser] = useState({
     name: "",
     phone: "",
@@ -64,16 +65,15 @@ const editProfile = () => {
     const res = await updateUserData(currentUser?.id, userData);
     setLoading(false);
     if (res.sucess) {
-      setUser({ ...currentUser, ...userData });
+      setUserData({ ...currentUser, ...userData });
       utils.successMsg("Successfully Profile Updated");
     }
   };
 
-  useEffect(()=>{
-    console.log("Image Source",imagesource)
-  },[imagesource])
   let imagesource =user?.image && typeof user.image == "object"? user.image.uri: getUserImageSrc(currentUser?.image);
 
+ 
+  
   useEffect(() => {
     if (currentUser) {
       setUser({

@@ -17,7 +17,6 @@ import utils from "../../helper/utils";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { getUserImageSrc } from "../../services/imageServices";
-
 const Profile = () => {
   return (
     <Screenwrapper bg={"white"}>
@@ -27,7 +26,6 @@ const Profile = () => {
 };
 const UserHeader = () => {
   const { user, setAuth } = useAuth();
-
   //Logout Function
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -40,9 +38,7 @@ const UserHeader = () => {
     }
   };
   const router = useRouter();
-  let imagesource =user?.image && typeof user.image == "object"? user.image.uri: getUserImageSrc(user?.image);
-
-  console.log("Profile User Data",user)
+ 
   return (
     <View style={styles.container}>
       <View>
@@ -60,7 +56,11 @@ const UserHeader = () => {
       <View style={styles.container}>
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
-            <Avatar uri={imagesource} size={hp(12)} rounded={theme.radius.xxl * 1.4} />
+            <Avatar
+              uri={user?.image}
+              size={hp(12)}
+              rounded={theme.radius.xxl * 1.4}
+            />
             <Pressable
               onPress={() => {
                 router.push("editProfile");
@@ -81,21 +81,21 @@ const UserHeader = () => {
           <View style={{ gap: 20 }}>
             <View style={styles.info}>
               <Icon name={"mail"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user?.email}</Text>
+              <Text style={styles.infoText}>{user && user?.email}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"call"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user?.phone}</Text>
+              <Text style={styles.infoText}>{user && user?.phone}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"user"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user?.bio}</Text>
+              <Text style={styles.infoText}>{user && user?.bio}</Text>
             </View>
           </View>
         </View>
       </View>
     </View>
-  );
+     );
 };
 
 const styles = StyleSheet.create({

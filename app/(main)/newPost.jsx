@@ -6,6 +6,7 @@ import { hp, wp } from "../../helper/common";
 import { useAuth } from "../../context/AuthContext";
 import Avatar from "../../components/avatar";
 import { theme } from "../../constants/theme";
+import {RichTextEditor} from '../../components/RichTextEditor'
 const newPost = () => {
   const { user } = useAuth();
   return (
@@ -23,6 +24,10 @@ const newPost = () => {
               <Text style={styles.username}>Hassnain Ali</Text>
               <Text style={styles.publicText}>Public</Text>
             </View>
+          </View>
+
+          <View>
+            <RichTextEditor/>
           </View>
           <View>
           </View>
