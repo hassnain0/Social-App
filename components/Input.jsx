@@ -1,17 +1,19 @@
-import { View, Text, StyleSheet, TextInput } from "react-native";
+import { View, StyleSheet, TextInput } from "react-native";
 import React from "react";
 import { theme } from "../constants/theme";
 import { hp } from "../helper/common";
 
 const Input = (props) => {
   return (
-    <View style={[styles.container, props.containerStyle && props.containerStyle]}>
-      {props.icon &&  props.icon}
+    <View
+      style={[styles.container, props.containerStyle && props.containerStyle]}
+    >
+      {props.icon && props.icon}
       <TextInput
         style={{ flex: 1 }}
         placeholderTextColor={theme.colors.textLight}
-        ref={props.inputRef&&props.inputRef}
-        secureTextEntry={props.securityTextEntry&&props.securityTextEntry}
+        ref={props.inputRef && props.inputRef}
+        secureTextEntry={props.securityTextEntry && props.securityTextEntry}
         {...props}
       />
     </View>

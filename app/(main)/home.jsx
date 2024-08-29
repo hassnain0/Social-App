@@ -19,9 +19,7 @@ const Home = () => {
         {/* header */}
         <View style={styles.header}>
           <Text style={styles.title}>Social Hook</Text>
-
           {/* View Component for Icons */}
-
           <View style={styles.icon}>
             {/* Reusable Icons */}
             <Pressable
@@ -93,4 +91,3 @@ const styles = StyleSheet.create({
     height: hp(),
   },
 });
-  
