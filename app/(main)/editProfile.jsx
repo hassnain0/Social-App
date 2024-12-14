@@ -70,10 +70,10 @@ const editProfile = () => {
     }
   };
 
-  let imagesource =user?.image && typeof user.image == "object"? user.image.uri: getUserImageSrc(currentUser?.image);
+  let imagesource = user?.image && typeof user.image == "object" ? user.image.uri : getUserImageSrc(currentUser?.image);
 
- 
-  
+
+
   useEffect(() => {
     if (currentUser) {
       setUser({
@@ -81,7 +81,7 @@ const editProfile = () => {
         phone: currentUser?.phone || "",
         address: currentUser?.address || "",
         bio: currentUser?.bio || "",
-        image:currentUser?.image||null,
+        image: currentUser?.image || null,
 
       });
     }

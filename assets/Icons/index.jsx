@@ -24,41 +24,41 @@ import Video from './Video';
 import ArrowRight02Icon from './ArrowRightIcon';
 import Add01Icon from './Add';
 const icons = {
-    home: Home,
-    mail: Mail,
-    lock: Lock,
-    user: User,
-    heart: Heart,
-    plus: Plus,
-    search: Search,
-    location: Location,
-    call: Call,
-    camera: Camera,
-    edit: Edit,
-    arrowLeft: ArrowLeft,
-    threeDotsCircle: ThreeDotsCircle,
-    threeDotsHorizontal: ThreeDotsHorizontal,
-    comment: Comment,
-    share: Share,
-    send: Send,
-    delete: Delete,
-    logout: Logout,
-    image: Image,
-    video: Video,
-    ArrowRight:ArrowRight02Icon,
-    Add:Add01Icon,
+  home: Home,
+  mail: Mail,
+  lock: Lock,
+  user: User,
+  heart: Heart,
+  plus: Plus,
+  search: Search,
+  location: Location,
+  call: Call,
+  camera: Camera,
+  edit: Edit,
+  arrowLeft: ArrowLeft,
+  threeDotsCircle: ThreeDotsCircle,
+  threeDotsHorizontal: ThreeDotsHorizontal,
+  comment: Comment,
+  share: Share,
+  send: Send,
+  delete: Delete,
+  logout: Logout,
+  image: Image,
+  video: Video,
+  ArrowRight: ArrowRight02Icon,
+  Add: Add01Icon,
 
 }
 
-const Icon = ({name, ...props}) => {
-    const IconComponent = icons[name];
+const Icon = ({ name, ...props }) => {
+  const IconComponent = icons[name];
   return (
     <IconComponent
-        height={props.size || 24}
-        width={props.size || 24}
-        strokeWidth={props.strokeWidth || 1.9}
-        color={props.color}
-        {...props}
+      height={props.size || 24}
+      width={props.size || 24}
+      strokeWidth={props.strokeWidth || 1.9}
+      color={props.color}
+      {...props}
     />
   )
 }

@@ -12,6 +12,7 @@ import Button from "../components/Button";
 import utils from "../helper/utils";
 import Toast from "react-native-toast-message";
 import { supabase } from "../lib/supabase";
+import axios from 'axios';
 
 const SignUp = () => {
   const route = useRouter();
@@ -31,39 +32,39 @@ const SignUp = () => {
 
     setLoading(true);
 
-    const {
-      data: { session },
-      error,
-    } = await supabase.auth.signUp({
+    const data = {
+      name: name,
       email: email,
-      password: password,
-      options: {
-        data: {
-          name,
+      password: password
+    };
+    const APIURI = "http://192.168.56.1:3000/signUp";
+    try {
+
+      const response = await axios.post(APIURI, data, {
+        headers: {
+          'Content-Type': 'application/json',
         },
-      },
-    });
-    setLoading(false);
-    if (error) {
-      setFieldEmpty();
-      console.error("Error signing up user:", error.message);
-      // Optionally handle different types of errors
-      if (error.code === "23505") {
-        utils.errorMsg(error.message);
+      });
+      console.log('Response', response.data);
+      if (response.data === 'OK') {
+        utils.successMsg("User signed up successfully:");
+        setFieldEmpty();
+        setLoading(false);
       }
-      if (error.message == "Network request failed") {
-        utils.errorMsg(error.message);
-      }
-    } else {
-      utils.successMsg("User signed up successfully:");
-      setFieldEmpty();
     }
+
+    catch (error) {
+      console.log("Error", error);
+      setLoading(false);
+    }
+    setLoading(false);
+
   };
 
   const setFieldEmpty = () => {
-    (nameRef.current = " "),
-      (emailRef.current = " "),
-      (passwordRef.current = " ");
+    (nameRef.current =" "),
+      (emailRef.current =" "),
+      (passwordRef.current=" ");
   };
   return (
     <Screenwrapper bg="white">

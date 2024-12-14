@@ -12,6 +12,7 @@ import Avatar from "../../components/avatar";
 const Home = () => {
   const { user } = useAuth();
   const router = useRouter();
+
   return (
     <ScreenWrapper>
       <View style={styles.container}>
