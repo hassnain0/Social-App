@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 const dataSchema = mongoose.Schema({
     name: {
@@ -7,11 +6,20 @@ const dataSchema = mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        unique: true,
     },
     password: {
         type: String,
         required: true,
+    },
+    address: {
+        type: String,
+    },
+    bio: {
+        type: String,
+    },
+    phone: {
+        type: Number,
     },
 }, {
     timeStamp: true

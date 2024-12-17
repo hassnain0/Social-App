@@ -1,7 +1,9 @@
+import axios from 'axios';
 import { supabase } from '../lib/supabase';
-export const getUserData = async (userId) => {
+export const getUserData = async (email) => {
     try {
-        const { data, error } = await supabase.from("users").select().eq('id', userId).single();
+        const APIURI = "http://192.168.56.1:3000/getUserData";
+        const { data, error } = await axios.get(APIURI,)
 
         if (error) {
             return { success: false, msg: error?.message };

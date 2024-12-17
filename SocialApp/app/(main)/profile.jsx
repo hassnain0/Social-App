@@ -7,7 +7,7 @@ import {
 } from "react-native";
 import React from "react";
 import Screenwrapper from "../../components/Screenwrapper";
-import { useRouter } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import Header from "../../components/Header";
 import { hp, wp } from "../../helper/common";
 import Icon from "../../assets/Icons";
@@ -17,7 +17,9 @@ import utils from "../../helper/utils";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { getUserImageSrc } from "../../services/imageServices";
+
 const Profile = () => {
+  
   return (
     <Screenwrapper bg={"white"}>
       <UserHeader />
@@ -25,7 +27,7 @@ const Profile = () => {
   );
 };
 const UserHeader = () => {
-  const { user, setAuth } = useAuth();
+  // const { user, setAuth } = useAuth();
   //Logout Function
   const handleLogout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -38,6 +40,13 @@ const UserHeader = () => {
     }
   };
   const router = useRouter();
+  const { data } = useLocalSearchParams();
+  
+    console.log('Raw data:', data); // Debugging step
+  
+    const parsedData = data ? JSON.parse(data) : null;
+  
+    console.log('Parsed data:', parsedData); 
  
   return (
     <View style={styles.container}>
@@ -57,13 +66,18 @@ const UserHeader = () => {
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
             <Avatar
-              uri={user?.image}
+              uri={parsedData.data?.image}
               size={hp(12)}
               rounded={theme.radius.xxl * 1.4}
             />
             <Pressable
               onPress={() => {
-                router.push("editProfile");
+                router.push({
+                  pathname: 'editProfile',
+                  params: {
+                    data: JSON.stringify(parsedData), // Ensure data is stringified
+                  },
+                });
               }}
               style={styles.editIcon}
             >
@@ -73,23 +87,23 @@ const UserHeader = () => {
 
           {/* Username and Address */}
           <View style={{ alignItems: "center", gap: 4 }}>
-            <Text style={styles.userName}>{user?.name}</Text>
-            <Text style={styles.infoText}>{user?.address}</Text>
+            <Text style={styles.userName}>{parsedData.data?.name}</Text>
+            <Text style={styles.infoText}>{parsedData.data?.address}</Text>
           </View>
 
           {/* Info  email, contact and bio*/}
           <View style={{ gap: 20 }}>
             <View style={styles.info}>
               <Icon name={"mail"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user && user?.email}</Text>
+              <Text style={styles.infoText}>{parsedData && parsedData.data?.email}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"call"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user && user?.phone}</Text>
+              <Text style={styles.infoText}>{parsedData && parsedData.data?.phone}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"user"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{user && user?.bio}</Text>
+              <Text style={styles.infoText}>{parsedData && parsedData.data?.bio}</Text>
             </View>
           </View>
         </View>

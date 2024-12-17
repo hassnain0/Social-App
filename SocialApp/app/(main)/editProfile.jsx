@@ -13,22 +13,29 @@ import utils from "../../helper/utils";
 import { useAuth } from "../../context/AuthContext";
 import { getUserImageSrc, uploadFile } from "../../services/imageServices";
 import Toast from "react-native-toast-message";
-import { updateUserData } from "../../services/userServices";
-import { useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import { updateUserData } from "../../constants/backendFunctions";
 
 const editProfile = () => {
   //States
   const { user: currentUser, setUserData } = useAuth();
   const [loading, setLoading] = useState(false);
+  const { data } = useLocalSearchParams();
 
+  console.log('Raw data:', data); // Debugging step
+
+  const parsedData = data ? JSON.parse(data) : null;
+
+  console.log('Parsed data:', parsedData);
 
   const [user, setUser] = useState({
-    name: "",
-    phone: "",
-    image: null,
-    bio: "",
-    address: "",
+    id: parsedData.data?.id,
+    name: parsedData.data?.name,
+    email: parsedData.data?.email,
+    phone: parsedData.data?.phone,
+    bio: parsedData.data?.bio,
+    address: parsedData.data?.address,
   });
 
   const onPickImage = async () => {
@@ -47,26 +54,31 @@ const editProfile = () => {
 
   const onSubmit = async () => {
     let userData = { ...user };
-    let { name, phone, address, image, bio } = userData;
-    if (!name || !phone || !address || !bio || !image) {
+    let { name, phone, address, bio, email } = userData;
+    if (!name || !phone || !address || !bio || !email) {
       utils.errorMsg("Please fill all the feidls");
       return;
     }
 
     setLoading(true);
 
-    if (typeof image == "object") {
-      let imageRes = await uploadFile("profiles", image?.uri, true);
-      if (imageRes.success) userData.image = imageRes.data;
-      else {
-        userData.image = null;
-      }
-    }
-    const res = await updateUserData(currentUser?.id, userData);
+    // if (typeof image == "object") {
+    //   let imageRes = await uploadFile("profiles", image?.uri, true);
+    //   if (imageRes.success) userData.image = imageRes.data;
+    //   else {
+    //     userData.image = null;
+    //   }
+    // }
+    const res = await updateUserData(user?.id, userData);
     setLoading(false);
-    if (res.sucess) {
-      setUserData({ ...currentUser, ...userData });
+    if (res.status==200) {
+      setUserData({ ...user, ...userData });
       utils.successMsg("Successfully Profile Updated");
+    }
+    else{
+      utils.errorMsg("Profile Not Updated");
+      setLoading(false);
+      router.back();
     }
   };
 
@@ -74,18 +86,18 @@ const editProfile = () => {
 
 
 
-  useEffect(() => {
-    if (currentUser) {
-      setUser({
-        name: currentUser?.name,
-        phone: currentUser?.phone || "",
-        address: currentUser?.address || "",
-        bio: currentUser?.bio || "",
-        image: currentUser?.image || null,
+  // useEffect(() => {
+  //   if (currentUser) {
+  //     setUser({
+  //       name: parsedData.data?.name,
+  //       phone: parsedData.data?.phone || "",
+  //       address: parsedData.data?.address || "",
+  //       bio: parsedData.data?.bio || "",
+  //       image: parsedData.data?.image || null,
 
-      });
-    }
-  }, []);
+  //     });
+  //   }
+  // }, []);
 
   return (
     <Screenwrapper bg={"white"}>
@@ -152,6 +164,24 @@ const editProfile = () => {
                       setUser({ ...user, phone: value });
                     }}
                     keyboardType={"numeric"}
+                  />
+                </View>
+                <View>
+                  <Input
+                    icon={
+                      <Icon
+                        color={"gray"}
+                        name={"mail"}
+                        size={26}
+                        strokeWidth={1.6}
+                      />
+                    }
+                    placeholder="Enter your email"
+                    value={user.email}
+                    onChangeText={(value) => {
+                      setUser({ ...user, email: value });
+                    }}
+
                   />
                 </View>
                 <View>

@@ -6,13 +6,20 @@ import { theme } from "../../constants/theme";
 import { useAuth } from "../../context/AuthContext";
 import ScreenWrapper from "../../components/Screenwrapper";
 import Icon from "../../assets/Icons";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import Avatar from "../../components/avatar";
+
 
 const Home = () => {
   const { user } = useAuth();
-  const router = useRouter();
+  const { data } = useLocalSearchParams();
 
+  console.log('Raw data:', data); // Debugging step
+
+  const parsedData = data ? JSON.parse(data) : null;
+
+  console.log('Parsed data:', parsedData); // Debugging step
+  const router = useRouter();
   return (
     <ScreenWrapper>
       <View style={styles.container}>
@@ -49,7 +56,12 @@ const Home = () => {
             </Pressable>
             <Pressable
               onPress={() => {
-                router.push("profile");
+                router.push({
+                  pathname: 'profile',
+                  params: {
+                    data: JSON.stringify(parsedData), // Ensure data is stringified
+                  },
+                });
               }}
             >
               <Avatar

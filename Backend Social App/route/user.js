@@ -1,12 +1,10 @@
 const express = require('express');
 const {
-    signUp,
     updateUserData,
 } = require('../controller/controller');
 
 const router = express.Router();
 
-router.post('/', signUp);
-
+router.route('/:id').patch(updateUserData);
 
 module.exports = router;

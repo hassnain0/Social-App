@@ -13,6 +13,7 @@ import utils from "../helper/utils";
 import Toast from "react-native-toast-message";
 import { supabase } from "../lib/supabase";
 import axios from 'axios';
+import { signUp } from "../constants/backendFunctions";
 
 const SignUp = () => {
   const route = useRouter();
@@ -37,34 +38,24 @@ const SignUp = () => {
       email: email,
       password: password
     };
-    const APIURI = "http://192.168.56.1:3000/signUp";
-    try {
-
-      const response = await axios.post(APIURI, data, {
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('Response', response.data);
-      if (response.data === 'OK') {
-        utils.successMsg("User signed up successfully:");
-        setFieldEmpty();
-        setLoading(false);
-      }
-    }
-
-    catch (error) {
-      console.log("Error", error);
+    if (signUp(data)) {
+      utils.successMsg("User SucessFully SignUp");
       setLoading(false);
     }
-    setLoading(false);
+    else {
+      utils.errorMsg("User not SignUp")
+      console.log("User not SignUp");
+      return false;
+
+    }
+
 
   };
 
   const setFieldEmpty = () => {
-    (nameRef.current =" "),
-      (emailRef.current =" "),
-      (passwordRef.current=" ");
+    (nameRef.current = " "),
+      (emailRef.current = " "),
+      (passwordRef.current = " ");
   };
   return (
     <Screenwrapper bg="white">
