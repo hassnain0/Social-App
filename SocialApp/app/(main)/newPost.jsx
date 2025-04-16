@@ -25,10 +25,10 @@ const newPost = () => {
       return file.type;
     }
     //check image 
-    if(file.includes('postImage')){
+    if (file.includes('postImage')) {
       return 'image';
     }
-    else{
+    else {
       return 'video';
     }
   }
@@ -55,14 +55,24 @@ const newPost = () => {
     }
 
     let results = await ImagePicker.launchImageLibraryAsync(mediaConfig);
-  
-    console.log("Files",results.assets[0]);
+
     if (!results.canceled) {
       setFile(results.assets[0]);
     }
   }
+
+  const getFileUri = (file) => {
+    if (!file) return null;
+    
+    if (!isLocalFile(file)){
+      return file.uri;
+    }
+    return get
+  };
+
+
   const onSubmit = async () => {
-    console.log("Hello")
+
   }
 
   return (
@@ -92,7 +102,8 @@ const newPost = () => {
             file && (
               <View style={styles.file}>
                 {
-                  getFileType(file) == 'video' ? (<></>) : (<></>)
+                  getFileType(file) == 'video' ? (<></>) : (
+                    <Image source={{ uri: getFileUri(file) }} resizeMode='cover' sty></Image>)
                 }
               </View>
             )

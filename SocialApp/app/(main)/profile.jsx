@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Screenwrapper from "../../components/Screenwrapper";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import Header from "../../components/Header";
@@ -17,9 +17,10 @@ import utils from "../../helper/utils";
 import { useAuth } from "../../context/AuthContext";
 import { supabase } from "../../lib/supabase";
 import { getUserImageSrc } from "../../services/imageServices";
+import { getUserData } from "../../services/userServices";
 
 const Profile = () => {
-  
+
   return (
     <Screenwrapper bg={"white"}>
       <UserHeader />
@@ -41,13 +42,16 @@ const UserHeader = () => {
   };
   const router = useRouter();
   const { data } = useLocalSearchParams();
-  
-    console.log('Raw data:', data); // Debugging step
-  
-    const parsedData = data ? JSON.parse(data) : null;
-  
-    console.log('Parsed data:', parsedData); 
- 
+  const [currentUserData, setCurrentUserData] = useState();
+
+
+  const parsedData = data ? JSON.parse(data) : null;
+
+  useEffect(() => { fetchData() }, [])
+  const fetchData = async () => {
+    const data = await getUserData(parsedData?.data?.id);
+    setCurrentUserData(data?.data);
+  }
   return (
     <View style={styles.container}>
       <View>
@@ -66,7 +70,7 @@ const UserHeader = () => {
         <View style={{ gap: 15 }}>
           <View style={styles.avatarContainer}>
             <Avatar
-              uri={parsedData.data?.image}
+              uri={currentUserData?.image}
               size={hp(12)}
               rounded={theme.radius.xxl * 1.4}
             />
@@ -87,29 +91,29 @@ const UserHeader = () => {
 
           {/* Username and Address */}
           <View style={{ alignItems: "center", gap: 4 }}>
-            <Text style={styles.userName}>{parsedData.data?.name}</Text>
-            <Text style={styles.infoText}>{parsedData.data?.address}</Text>
+            <Text style={styles.userName}>{currentUserData?.name}</Text>
+            <Text style={styles.infoText}>{currentUserData?.address}</Text>
           </View>
 
           {/* Info  email, contact and bio*/}
           <View style={{ gap: 20 }}>
             <View style={styles.info}>
               <Icon name={"mail"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{parsedData && parsedData.data?.email}</Text>
+              <Text style={styles.infoText}>{currentUserData?.email}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"call"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{parsedData && parsedData.data?.phone}</Text>
+              <Text style={styles.infoText}>{currentUserData?.phone}</Text>
             </View>
             <View style={styles.info}>
               <Icon name={"user"} size={20} color={theme.colors.textLight} />
-              <Text style={styles.infoText}>{parsedData && parsedData.data?.bio}</Text>
+              <Text style={styles.infoText}>{currentUserData?.bio}</Text>
             </View>
           </View>
         </View>
       </View>
     </View>
-     );
+  );
 };
 
 const styles = StyleSheet.create({

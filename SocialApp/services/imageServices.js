@@ -25,14 +25,7 @@ export const uploadFile = async (folderName, fileUri, isImage = true) => {
       encoding: FileSystem.EncodingType.Base64,
     });
     let imageData = decode(fileBaseUri);
-    const { data, error } = await supabase
-      .storage
-      .from("uploads")
-      .upload(fileName, imageData, {
-        cahcheControl: "3600",
-        upsert: false,
-        contentType: isImage ? "image/*" : "video/*",
-      });
+    
     if (error) {
       return { success: false, msg: "Could not upload media" };
     }
@@ -40,7 +33,6 @@ export const uploadFile = async (folderName, fileUri, isImage = true) => {
     return { success: true, data: data.path }
 
   } catch (error) {
-    console.log("File Upload error", error);
     return { success: false, msg: "Could not upload media" };
   }
 };

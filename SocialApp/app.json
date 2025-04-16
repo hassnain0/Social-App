@@ -26,17 +26,17 @@
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-    "plugins": [
+   "plugins": [
       "expo-router",
       [
         "expo-font",
-          {
-            "fonts": 
-            [
-              "./assets/fonts/Poppins-Medium.ttf"
-            ]
+        {
+          "fonts": [
+            "./assets/fonts/Poppins-Medium.ttf"
+          ]
         }
       ]
+      
     ],
     "experiments": {
       "typedRoutes": true

@@ -44,7 +44,7 @@ const SignUp = () => {
     }
     else {
       utils.errorMsg("User not SignUp")
-      console.log("User not SignUp");
+     
       return false;
 
     }

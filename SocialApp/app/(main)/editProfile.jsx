@@ -16,27 +16,48 @@ import Toast from "react-native-toast-message";
 import { router, useLocalSearchParams, useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
 import { updateUserData } from "../../constants/backendFunctions";
+import { getUserData } from "../../services/userServices";
 
 const editProfile = () => {
-  //States
-  const { user: currentUser, setUserData } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [currentUserData, setCurrentUserData] = useState();
   const { data } = useLocalSearchParams();
-
-  console.log('Raw data:', data); // Debugging step
+  const [user, setUser] = useState({
+    id: null,
+    name: '',
+    email: '',
+    bio: '',
+    address: '',
+    image: '',
+  });
 
   const parsedData = data ? JSON.parse(data) : null;
 
-  console.log('Parsed data:', parsedData);
 
-  const [user, setUser] = useState({
-    id: parsedData.data?.id,
-    name: parsedData.data?.name,
-    email: parsedData.data?.email,
-    phone: parsedData.data?.phone,
-    bio: parsedData.data?.bio,
-    address: parsedData.data?.address,
-  });
+
+  useEffect(() => {
+    // Fetch user data initially
+    const fetchData = async () => {
+      const data = await getUserData(parsedData?.data?.id);
+      setCurrentUserData(data?.data);
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    // Update user state whenever currentUserData changes
+    if (currentUserData) {
+      setUser({
+        id: currentUserData.id || '',
+        name: currentUserData.name || '',
+        email: currentUserData.email || '',
+        bio: currentUserData.bio || '',
+        address: currentUserData.address || '',
+        image: currentUserData.image || '',
+      });
+    }
+  }, [currentUserData]);
+
 
   const onPickImage = async () => {
     let results = await ImagePicker.launchImageLibraryAsync({
@@ -47,47 +68,47 @@ const editProfile = () => {
     });
 
     if (!results.canceled) {
-      setUser({ ...currentUser, image: results.assets[0] });
+      setUser({ ...currentUserData, image: results.assets[0] });
     }
     console.log("Current user after selecting Image", user.image);
   };
 
   const onSubmit = async () => {
     let userData = { ...user };
-    let { name, phone, address, bio, email } = userData;
-    if (!name || !phone || !address || !bio || !email) {
+    let { name, address, bio, email, } = userData;
+    if (!name || !address || !bio || !email) {
       utils.errorMsg("Please fill all the feidls");
       return;
     }
 
     setLoading(true);
+    if (typeof image == "object") {
+      let imageRes = await uploadFile("profiles", image?.uri, true);
+      if (imageRes.success) userData.image = imageRes.data;
 
-    // if (typeof image == "object") {
-    //   let imageRes = await uploadFile("profiles", image?.uri, true);
-    //   if (imageRes.success) userData.image = imageRes.data;
-    //   else {
-    //     userData.image = null;
-    //   }
-    // }
-    const res = await updateUserData(user?.id, userData);
+      else {
+        userData.image = null;
+      }
+    }
+    const res = await updateUserData(user?.id, userData, "profiles", image?.uri, true);
     setLoading(false);
-    if (res.status==200) {
-      setUserData({ ...user, ...userData });
+    if (res.status == 200) {
+      setCurrentUserData({ ...user, ...userData });
       utils.successMsg("Successfully Profile Updated");
     }
-    else{
+    else {
       utils.errorMsg("Profile Not Updated");
       setLoading(false);
       router.back();
     }
   };
 
-  let imagesource = user?.image && typeof user.image == "object" ? user.image.uri : getUserImageSrc(currentUser?.image);
+  let imagesource = user?.image && typeof user.image == "object" ? user.image.uri : getUserImageSrc(currentUserData?.image);
 
 
 
   // useEffect(() => {
-  //   if (currentUser) {
+  //   if (currentUserData) {
   //     setUser({
   //       name: parsedData.data?.name,
   //       phone: parsedData.data?.phone || "",
@@ -148,24 +169,7 @@ const editProfile = () => {
                     onChangeText={(value) => setUser({ ...user, name: value })}
                   />
                 </View>
-                <View>
-                  <Input
-                    icon={
-                      <Icon
-                        color={"gray"}
-                        name={"call"}
-                        size={26}
-                        strokeWidth={1.6}
-                      />
-                    }
-                    placeholder="Enter your Phone Number"
-                    value={user.phone}
-                    onChangeText={(value) => {
-                      setUser({ ...user, phone: value });
-                    }}
-                    keyboardType={"numeric"}
-                  />
-                </View>
+
                 <View>
                   <Input
                     icon={

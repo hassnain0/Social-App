@@ -10,7 +10,7 @@ export const supabase = createClient(supabaseUrl,supabaseanon_key, {
     persistSession: true,
     detectSessionInUrl: false,
   },
-})
+});
 // only be registered once.
 AppState.addEventListener('change', (state) => {
   if (state === 'active') {
